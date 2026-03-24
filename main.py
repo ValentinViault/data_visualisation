@@ -3,7 +3,7 @@ import pandas as pd
 import plotly.express as px
 
 # Ouverture du fichier et lecture via panda / Opening the file and reading using pandas
-file = 'C:\\Users\\User\\Desktop\\Portfolio_Python\\projet_data_visualisation\\data\\Superstore.csv'
+file = 'Superstore.csv'
 df = pd.read_csv(file)
 
 # Voir comment le CSV est articulé et ses en-tête / Looking at the CSV and its headers
