@@ -3,7 +3,7 @@ import pandas as pd
 import plotly.express as px
 
 # Ouverture du fichier et lecture via panda / Opening the file and reading using pandas
-file = 'Superstore.csv'
+file = 'C:\\Users\\User\\Desktop\\Portfolio_Python\\projet_data_visualisation\\data\\Superstore.csv'
 df = pd.read_csv(file)
 
 # Voir comment le CSV est articulé et ses en-tête / Looking at the CSV and its headers
@@ -47,3 +47,19 @@ fig.show()
 march_2013 = df[(df["Year"] == 2013) & (df["Month"] == 3)]
 result_march_2013 = march_2013.groupby("Category")["Profit"].sum()
 print(result_march_2013)
+
+# Enquête sur mai 2014 / Investigating on May 2014
+may_2014 = df[(df["Year"] == 2014) & (df["Month"] == 5)]
+result_may_2014 = may_2014.groupby("Category")["Profit"].sum()
+print(result_may_2014)
+
+# Profit par catégorie / Profit per category
+category_result = df.groupby("Category")["Profit"].sum().reset_index()
+fig = px.bar(
+    category_result,
+    x="Category",
+    y="Profit",
+    title="Profit par catégorie",
+    text="Profit"
+)
+fig.show()
