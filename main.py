@@ -1,6 +1,8 @@
 # Lignes d'import / Import lines
 import pandas as pd
 import plotly.express as px
+from plotly.subplots import make_subplots
+import plotly.graph_objs as go
 
 # Ouverture du fichier et lecture via panda / Opening the file and reading using pandas
 file = 'C:\\Users\\User\\Desktop\\Portfolio_Python\\projet_data_visualisation\\data\\Superstore.csv'
@@ -13,7 +15,7 @@ print(df.info())
 # Montrer les 10 premiers résultats / Showing the 10 first results
 print(df["Order Date"].head(10))
 
-# Changer le format de date, et utiliser coerce pour éviter la casse / #
+# Changer le format de date, et utiliser coerce pour éviter la casse / Change the datetime format and use coerce to prevent breaking
 df["Order Date"] = pd.to_datetime(df["Order Date"], errors='coerce')
 
 print(df.info())
@@ -55,11 +57,40 @@ print(result_may_2014)
 
 # Profit par catégorie / Profit per category
 category_result = df.groupby("Category")["Profit"].sum().reset_index()
-fig = px.bar(
-    category_result,
-    x="Category",
-    y="Profit",
-    title="Profit par catégorie",
-    text="Profit"
+
+# Graphiques et DashBoard / Graphs and DashBoard
+fig = make_subplots(
+    rows=2,
+    cols=1,
+    subplot_titles=('Profit par catégorie','Profit mensuel')
+    )
+
+fig.add_trace(
+    go.Bar(
+        x=category_result["Category"],
+        y=category_result["Profit"],
+        name="Profit catégorie"
+    ),
+    row=1,
+    col=1,
 )
+
+fig.add_trace(
+    go.Scatter(
+        x=monthly_result["Order Date"],
+        y=monthly_result["Profit"],
+        mode="lines+markers",
+        name="Profit mensuel",
+    ),
+    row=2,
+    col=1,
+)
+fig.update_layout(
+    title="Mini-Dashboard - Analyse des Profits",
+    height=700,
+    showlegend=True,
+    template="plotly_white",
+)
+fig.write_image("images\dashboard.png")
+
 fig.show()
